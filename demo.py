@@ -7,9 +7,7 @@ from collections import Counter
 from datetime import datetime
 
 
-# =========================
-# DESIGN
-# =========================
+
 
 BG      = "#f4f6f8"
 CARD    = "#ffffff"
@@ -26,9 +24,6 @@ FONT_SMALL = ("Segoe UI", 9)
 HISTORY_FILE = "feedback_history.json"
 
 
-# =========================
-# WORDS
-# =========================
 
 positive_words = {
     "good", "great", "nice", "fast", "excellent", "love",
@@ -73,9 +68,6 @@ FIX_CHECKS = [
 ]
 
 
-# =========================
-# HISTORY
-# =========================
 
 def load_history():
     if os.path.exists(HISTORY_FILE):
@@ -94,9 +86,7 @@ def save_history(history):
         pass
 
 
-# =========================
-# ANALYSIS ENGINE
-# =========================
+
 
 def _run_analysis(txt):
     lines = [l.strip() for l in txt.split("\n") if l.strip()]
@@ -249,9 +239,8 @@ def analyze_feedback(text, compare_text=None):
     return result, compare
 
 
-# =========================
-# HELPERS
-# =========================
+## HELPERS
+
 
 def score_color(s):
     if s >= 65: return GREEN
@@ -259,9 +248,9 @@ def score_color(s):
     return RED
 
 
-# =========================
+
 # APP
-# =========================
+
 
 class App:
 
@@ -320,7 +309,7 @@ class App:
         tk.Label(row, text=f"{value:.0f}/100", bg=CARD,
                  font=FONT_SMALL, fg=score_color(value)).pack(side="left")
 
-    # ── build UI ──────────────────────────────────
+    #  build UI 
 
     def build_ui(self):
 
@@ -410,7 +399,7 @@ class App:
         self.history_box.pack(fill="x")
         self._refresh_history_box()
 
-    # ── toggle compare ────────────────────────────
+    # compare
 
     def toggle_compare(self):
         if self.compare_var.get():
@@ -418,7 +407,7 @@ class App:
         else:
             self.compare_frame.pack_forget()
 
-    # ── import CSV ────────────────────────────────
+    # import CSV
 
     def import_csv(self):
         file = filedialog.askopenfilename(filetypes=[("CSV/Text files", "*.csv *.txt")])
@@ -432,7 +421,7 @@ class App:
         except Exception as e:
             messagebox.showerror("Import error", str(e))
 
-    # ── run ───────────────────────────────────────
+    #  run
 
     def run(self):
         txt = self.text.get("1.0", tk.END).strip()
@@ -565,7 +554,7 @@ class App:
         self._refresh_history_box()
         self.draw_chart()
 
-    # ── export ────────────────────────────────────
+    # export 
 
     def export(self):
         if not self.last_report:
@@ -578,7 +567,7 @@ class App:
                 f.write(self.last_report)
             messagebox.showinfo("Saved", "Report exported successfully.")
 
-    # ── clear history ─────────────────────────────
+    # clear history 
 
     def clear_history(self):
         if messagebox.askyesno("Clear history", "Delete all saved history?"):
@@ -587,7 +576,7 @@ class App:
             self._refresh_history_box()
             self.draw_chart()
 
-    # ── history box ───────────────────────────────
+    # history box 
 
     def _refresh_history_box(self):
         self.history_box.config(state="normal")
@@ -608,7 +597,7 @@ class App:
                 )
         self.history_box.config(state="disabled")
 
-    # ── chart ─────────────────────────────────────
+  
 
     def draw_chart(self):
         self.chart.delete("all")
@@ -673,9 +662,9 @@ class App:
                                font=("Segoe UI", 9), fill="#666")
 
 
-# =========================
+
 # RUN
-# =========================
+
 
 root = tk.Tk()
 App(root)
